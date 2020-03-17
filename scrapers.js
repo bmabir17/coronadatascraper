@@ -27,6 +27,32 @@ let UNASSIGNED = '(unassigned)';
 
 let scrapers = [
   {
+    url: 'https://www.iedcr.gov.bd/images/files/nCoV/2020-03-16%20CoVID%20Press%20release.pdf',
+    country: 'BGD',
+    city: 'Dhaka',
+    type: 'pdf',
+    timeseries: false,
+    ssl: 'true',
+    scraper: async function() {
+      let data = await fetch.pdf(this.url);
+      // let data = await fs.readPDF("./bd_test1.pdf");
+      
+      let city = [];
+      // for (let citydata of data) {
+        console.log("Data of city:",data);
+        let cityName = parse.string("Dhaka")
+        city.push({
+          city: transform.addCounty(cityName),
+          cases: parse.number(8),
+          deaths: parse.number(0),
+          tested: parse.number(200)
+        });
+      // }
+
+      return city;
+    }
+  },
+  {
     state: 'AZ',
     country: 'USA',
     url: 'https://tableau.azdhs.gov/views/COVID-19Dashboard/COVID-19table?:isGuestRedirectFromVizportal=y&:embed=y',
